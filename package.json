@@ -1,16 +1,29 @@
 {
-  "name": "app",
+  "name": "Health Hub Web App",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-react-buttons": "^0.2.0",
+    "apollo-client-preset": "^1.0.5",
+    "apollo-link-state": "^0.3.0",
+    "eslint": "^4.15.0",
+    "graphql": "^0.12.3",
+    "graphql-tag": "^2.6.1",
     "react": "^16.2.0",
+    "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.0"
+    "react-helmet": "^5.2.0",
+    "react-scripts": "1.1.0",
+    "react-sidebar": "^2.3.2",
+    "stylelint": "^8.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "stylelint-config-standard": "^18.0.0"
   }
 }
