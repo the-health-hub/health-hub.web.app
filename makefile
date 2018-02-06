@@ -1,2 +1,9 @@
+.PHONY: build serve
+
+# BUILD
+build:
+	npm run build
+
+# SERVER MANAGEMENT
 serve:
-	node app/app.js
+	npm start
