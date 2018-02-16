@@ -1,0 +1,172 @@
+import React from 'react';
+import {
+  Collapse,
+  Navbar,
+  // NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
+import {compose, graphql} from "react-apollo/index";
+import gql from "graphql-tag";
+import { colorTertiary } from '../../styles'
+
+class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+  
+  sideBarToggle = () => {
+    this.props.mutate({
+      variables: { sidebar_visibility: !this.props.sidebar_visibility }
+    });
+  };
+  
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Navbar color="faded" light expand="md">
+          <NavbarBrand href="#" onClick={() => this.sideBarToggle()} style={{marginRight: '40px'}}>
+            <i className='fa fa-bars' style={{marginRight: '13px', fontSize: '1.4em'}}/>
+            <span style={{fontSize: '1.3em'}}>Health Hub</span>
+          </NavbarBrand>
+          
+          {/*<span style={{*/}
+            {/*color: colorTertiary*/}
+            {/*//  Media query size to disappear when screen small*/}
+            {/*// https://github.com/contra/react-responsive*/}
+          {/*}}>*/}
+            {/*{this.props.breadcrumb}*/}
+          {/*</span>*/}
+          
+          {/* This is for the right menu when things get small. Shows menu items on right if they are hidden.*/}
+          {/*<NavbarToggler onClick={this.toggle} />*/}
+          
+          
+          {/*TODO: Float right*/}
+          {/*<div style={{display: 'flex'}}>*/}
+            {/*<div style={{flex: '1'}}>*/}
+              {/*<i className='fa fa-search' style={{*/}
+                {/*fontSize: '1.4em',*/}
+                {/*// color: colorTertiary*/}
+              {/*}}/>*/}
+            {/*</div>*/}
+            {/*<div style={{flex: '1'}}>*/}
+              {/*<UncontrolledDropdown>*/}
+                {/*<DropdownToggle*/}
+                  {/*tag="span"*/}
+                  {/*data-toggle="dropdown"*/}
+                {/*>*/}
+                  {/*<i className='fa fa-user-circle' style={{*/}
+                    {/*marginTop: '4px',*/}
+                    {/*marginRight: '10px',*/}
+                    {/*fontSize: '1.4em',*/}
+                    {/*// color: colorTertiary*/}
+                    {/*flex: '1'*/}
+                  {/*}}/>*/}
+                {/*</DropdownToggle>*/}
+                {/*<DropdownMenu>*/}
+                  {/*<DropdownItem>*/}
+                    {/*Settings*/}
+                  {/*</DropdownItem>*/}
+                  {/*<DropdownItem>*/}
+                    {/*Profile*/}
+                  {/*</DropdownItem>*/}
+                {/*</DropdownMenu>*/}
+              {/*</UncontrolledDropdown>*/}
+            {/*</div>*/}
+          {/*</div>*/}
+
+          
+          {/*<Collapse isOpen={this.state.isOpen} navbar>*/}
+          {/*<Collapse isOpen={true} navbar>*/}
+            {/*<Nav className="ml-auto" navbar>*/}
+              {/*<NavItem>*/}
+                {/*<NavLink href="#"><i className='fa fa-search' style={{fontSize: '1.4em'}}/></NavLink>*/}
+              {/*</NavItem>*/}
+              {/*<UncontrolledDropdown nav inNavbar>*/}
+                {/*/!*<DropdownToggle nav caret>*!/*/}
+                {/*<DropdownToggle nav>*/}
+                  {/*<i className='fa fa-user-circle' style={{*/}
+                    {/*marginRight: '10px',*/}
+                    {/*fontSize: '1.4em'*/}
+                  {/*}}/>*/}
+                {/*</DropdownToggle>*/}
+                {/*<DropdownMenu >*/}
+                  {/*<DropdownItem>*/}
+                    {/*Settings*/}
+                  {/*</DropdownItem>*/}
+                  {/*<DropdownItem>*/}
+                    {/*Profile*/}
+                  {/*</DropdownItem>*/}
+                  {/*/!*<DropdownItem divider />*!/*/}
+                {/*</DropdownMenu>*/}
+              {/*</UncontrolledDropdown>*/}
+            {/*</Nav>*/}
+          {/*</Collapse>*/}
+          
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <div style={{display: 'flex'}}>
+                  <div style={{flex: 1}}>
+                    <NavLink href="#"><i className='fa fa-search' style={{fontSize: '1.4em'}}/></NavLink>
+                  </div>
+                  <div style={{flex: 1}}>
+                    {/*<UncontrolledDropdown nav inNavbar>*/}
+                    <UncontrolledDropdown nav>
+                      {/*<DropdownToggle nav caret>*/}
+                      <DropdownToggle nav>
+                      {/*<DropdownToggle nav>*/}
+                        <i className='fa fa-user-circle' style={{
+                          marginLeft: '10px',
+                          marginRight: '10px',
+                          fontSize: '1.4em'
+                        }}/>
+                      </DropdownToggle>
+                      <DropdownMenu >
+                        <DropdownItem>
+                          Settings
+                        </DropdownItem>
+                        <DropdownItem>
+                          Profile
+                        </DropdownItem>
+                        {/*<DropdownItem divider />*/}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  </div>
+                </div>
+              </NavItem>
+            </Nav>
+        </Navbar>
+      </div>
+    );
+  }
+}
+
+// #Queries
+const sideBarToggle = gql`
+ mutation sideBarToggle($sidebar_visibility: Boolean!) {
+   sideBarToggle(sidebar_visibility: $sidebar_visibility) @client {
+     sidebar_visibility
+   }
+ }
+`;
+
+// #Export
+export default compose(
+  graphql(sideBarToggle)
+)(NavBar);

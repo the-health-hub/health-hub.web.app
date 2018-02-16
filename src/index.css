@@ -1,5 +1,9 @@
+* {
+  font-family: 'Titillium Web', sans-serif;
+  /*color: #313131;*/
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
 }
