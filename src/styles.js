@@ -1,10 +1,19 @@
 /* Color Palette */
 
 // Main
-export const colorMain = '#ffffff';  // Main, white
-export const colorSecondary = '#cc1f2f'; // Secondary, red
+export const colorBg = '#ffffff';  // Main, white
+export const colorPrimary = '#cc1f2f'; // Secondary, red
+// export const colorSecondary = '#cc1f2f'; // Secondary, red
 export const colorTertiary = '#585858'; // Tertiary, light grey
-export const colorAccent = colorSecondary;
+export const colorTertiaryMinusOne = '#a9a9a9'; // Tertiary, light grey
+export const colorAccent = colorPrimary;
+export const colorMain = colorPrimary;
+export const primary = colorPrimary;
+// export const secondary = colorSecondary;
+export const tertiary = colorTertiary;
+export const tertiaryMinusOne = colorTertiaryMinusOne;
+
+
 
 // Shades
 export const colorSecondary2 = '#e02536'; // Light red
@@ -13,6 +22,9 @@ export const colorTertiary3 = '#f6f6f6'; // Lighter, lighter grey
 export const bgSelected = colorSecondary2;
 export const bgHover = colorTertiary2;
 export const bgBase = colorTertiary3;
+
+// Icons
+export const iconBlack = '#191919';
 
 // Text
 export const textBase = '#313131';
