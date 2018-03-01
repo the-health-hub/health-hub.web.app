@@ -5,7 +5,7 @@ import { Button } from 'reactstrap';
 export class ButtonPrimary extends Component {
   render() {
     return (
-      <Button color={'danger'}>{this.props.children}</Button>
+      <Button style={this.props.style} color={'danger'}>{this.props.children}</Button>
     );
   }
 }
@@ -13,7 +13,7 @@ export class ButtonPrimary extends Component {
 export class ButtonSecondary extends Component {
   render() {
     return (
-      <Button color={'secondary'}>{this.props.children}</Button>
+      <Button style={this.props.style} color={'secondary'}>{this.props.children}</Button>
     );
   }
 }

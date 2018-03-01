@@ -85,7 +85,12 @@ const Box = styled.div`
     color: white;
   }
   @media ( max-width: 400px ) {
-    width: 175px;
-    margin: 18px;
+    //width: 100%;
+    width: 75%;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #c9c9c9;
+    font-size: 2.7em;
   }
 `;
