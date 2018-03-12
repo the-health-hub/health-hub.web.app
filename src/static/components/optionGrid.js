@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { GridContainer } from './positioning';
 import { primary, iconBlack } from '../../styles';
+import {darkGreen, lightGreen, brightGreen} from "../../styles";
 
 // # Resources
 // https://css-tricks.com/things-ive-learned-css-grid-layout/
 // https://css-tricks.com/snippets/css/complete-guide-grid/
 // https://www.sitepoint.com/seven-ways-you-can-place-elements-using-css-grid-layout/
 // Responsive: https://medium.com/samsung-internet-dev/common-responsive-layouts-with-css-grid-and-some-without-245a862f48df
-
-// TODO: For loop for options
-
 export default class OptionGrid extends Component {
-   
   render() {
-    /* Options
-     Daily Life - phys fit. Sleep. Exer. Diet. Vitals
-       Alcohol cig consump. Chronic ill. Daily life (sleep weight)
-     Long term - long term (injury ex) / recurrent / chronic or unknown health cond mental / emotianal
-     Short term - fever. Days to weeks
-    */
-    
+    // noinspection JSUnresolvedVariable
     return (
       <GridContainer>
         {this.props.options.map((option, i) =>
-          <Box key={i}>
-            <Icon className={option.icon}/>
-            <Txt>{option.text}</Txt>
+          <Box
+            key={i}
+            selected={option.selected}
+            onClick={() => this.props.registerInput(option.id)}
+          >
+            <Icon className={option.icon}
+                  selected={option.selected}
+            />
+            <Txt
+              selected={option.selected}
+              textMagnification={this.props.textMagnification ? this.props.textMagnification : null}
+            >
+              {option.text}
+            </Txt>
           </Box>
         )}
       </GridContainer>
@@ -36,25 +39,15 @@ export default class OptionGrid extends Component {
 const Icon = styled.i`
   margin-top: 15px;
   margin-bottom: 15px;
-  color: ${primary};
+  color: ${props => props.selected ? darkGreen : primary};
 `;
 
+// noinspection JSUnresolvedVariable
 const Txt = styled.span`
-  font-size: 0.34em;
+  font-size: ${props => (0.34 * (props.textMagnification ? props.textMagnification : 1)).toString() + 'em'};
+  //font-size: 0.34em;
+  color: ${props => props.selected ? darkGreen : ''};
   //color: ${primary};
-`;
-
-const GridContainer = styled.section`
-  //display: grid;
-  //grid-gap: 17px;
-  //grid-template-columns: repeat(auto-fill, minmax(100px, 100px));
-  //width: 90%;
-  //max-width: 340px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
-  margin-top: 30px;
-  margin-bottom: 10px;
 `;
 
 const Box = styled.div`
@@ -73,16 +66,21 @@ const Box = styled.div`
   //box-shadow: 0 3px 6px 0 ${primary}, 0 4px 8px 0 ${primary};
   //  box-shadow: 1px 1px 3px 0 ${primary};
   //box-shadow: 1px 1px 3px 0 ${iconBlack};
-  border: 1px solid ${primary};
+  border: ${props => props.selected ? '1px solid ' + darkGreen : '1px solid '+ primary};
   // border: 1px solid ${iconBlack};
   border-radius: 3px;
   /* opacity: 0.9; */
+  background: ${props => props.selected ? lightGreen: ''};
   &:hover {
-    background-color: ${primary};
-    color: white;
+    background-color: ${props => props.selected ? brightGreen : primary};
+    color: ${props => props.selected ? lightGreen : 'white'};
+    border: 0;
   }
   &:hover ${Icon} {
-    color: white;
+    color: ${props => props.selected ? lightGreen : 'white'};
+  }
+  &:hover ${Txt} {
+    color: ${props => props.selected ? lightGreen : 'white'};
   }
   @media ( max-width: 400px ) {
     //width: 100%;

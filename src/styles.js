@@ -22,6 +22,10 @@ export const colorTertiary3 = '#f6f6f6'; // Lighter, lighter grey
 export const bgSelected = colorSecondary2;
 export const bgHover = colorTertiary2;
 export const bgBase = colorTertiary3;
+// - Greens
+export const darkGreen = 'green';
+export const brightGreen = '#20ab45';
+export const lightGreen = '#CDE4CA';
 
 // Icons
 export const iconBlack = '#191919';
@@ -35,7 +39,8 @@ export const textHover = colorTertiary;
 export const info = '#2a73eb';
 export const success = '#53be24';
 export const warning = '#ffc925';
-export const error = '#ea101c';
+// export const error = '#ea101c';
+export const error = '#F78928';
 
 // Graphs
 export const seriesA = '#ff483b';

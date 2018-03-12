@@ -59,7 +59,7 @@ class NavBar extends React.Component {
     return (
       // https://stackoverflow.com/questions/18210241/fixed-header-footer-content-height-100-cause-undesired-vertical-scrolling
       // <div style={{position: this.state.viewMode === 'walkthrough' ? 'absolute' : 'relative', width: '100%', backgroundColor: primary}}>
-      <NavbarContainer viewMode={this.state.viewMode}>
+      <NavbarContainer viewMode={this.state.viewMode} style={{zIndex: 2}}>
         <Navbar light expand="md" style={{height: '50px', paddingTop: '10px'}}>
         {/*<Navbar color="faded" light expand="md" style={{height: '50px', paddingTop: '10px'}}>*/}
           <NavbarBrand href="#">
