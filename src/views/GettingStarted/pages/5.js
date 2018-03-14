@@ -38,7 +38,7 @@ export default class GS3 extends Component {
       },
     }
   };
-  // Having {this.header} in <GsH1>Categories</GsH1> didn't work.
+  
   content = function () {
     return <GsP>Categories are things you want to track and
       improve.<BrOver400px/>

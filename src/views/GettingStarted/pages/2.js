@@ -33,12 +33,10 @@ export default class GS2 extends Component {  // Who
       },
     }
   };
-  // Having {this.header} in <GsH1>Categories</GsH1> didn't work.
   content = function () {
     return <GsP>Who would you like to set up?<BrOver400px/>
       If you'd rather do a speedier setup, these options can easily be revisted later.</GsP>
   }();
-  
   render() {
     return (
       <SelectWidgetPage
