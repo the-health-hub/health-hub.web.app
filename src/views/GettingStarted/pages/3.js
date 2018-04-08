@@ -13,8 +13,11 @@ export default class GS3 extends Component {
   i = 3;
   constraintMessage = 'Please select one or more options.';
   state = {
+    __typename: 'HealthDomainsState',
     options: {
+      __typename: 'HealthDomainsOptions',
       'chronic': {
+        __typename: 'HealthDomainsOption',
         text: 'Chronic Health',
         id: 'chronic',
         img: require('../../../static/media/img/cards/chronic/blood-pressure-guage_5x1.jpg'),
@@ -27,6 +30,7 @@ export default class GS3 extends Component {
           Symptomology`
       },
       'long-short-term': {
+        __typename: 'HealthDomainsOption',
         text: 'Long & Short-term Health',
         id: 'long-short-term',
         img: require('../../../static/media/img/cards/long-short-term/injury-cast-leg_5x1.png'),
@@ -38,6 +42,7 @@ export default class GS3 extends Component {
         `
       },
       'everyday': {
+        __typename: 'HealthDomainsOption',
         text: 'Everyday Health',
         id: 'everyday',
         img: require('../../../static/media/img/cards/daily/fitness-shoe_5x1.jpg'),

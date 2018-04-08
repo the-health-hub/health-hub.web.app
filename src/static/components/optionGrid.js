@@ -14,22 +14,22 @@ export default class OptionGrid extends Component {
     // noinspection JSUnresolvedVariable
     return (
       <GridContainer>
-        {this.props.options.map((option, i) =>
-          <Box
-            key={i}
-            selected={option.selected}
-            onClick={() => this.props.registerInput(option.id)}
-          >
-            <Icon className={option.icon}
-                  selected={option.selected}
-            />
-            <Txt
+        {this.props.options.filter(option => typeof option === 'object').map((option, i) =>
+            <Box
+              key={i}
               selected={option.selected}
-              textMagnification={this.props.textMagnification ? this.props.textMagnification : null}
+              onClick={() => this.props.registerInput(option.id)}
             >
-              {option.text}
-            </Txt>
-          </Box>
+              <Icon className={option.icon}
+                    selected={option.selected}
+              />
+              <Txt
+                selected={option.selected}
+                textMagnification={this.props.textMagnification ? this.props.textMagnification : null}
+              >
+                {option.text}
+              </Txt>
+            </Box>
         )}
       </GridContainer>
     );

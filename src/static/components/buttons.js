@@ -30,14 +30,14 @@ export class ButtonPrimary extends Component {
   
   render() {
     return (
-      <div>
-        <Button style={this.props.style} color={'danger'} id='continue-button' onClick={this.continue}>{this.props.children}</Button>
+      <React.Fragment>
+        <Button style={this.props.style} color={'danger'} id='continue-button' onClick={(e) => {this.continue(e)}}>{this.props.children}</Button>
         <Tooltip style={{paddingTop: '10px', paddingBottom: '10px', color: error, fontWeight: 'bold'}} placement={'bottom'} isOpen={this.state.tooltipOpen} target='continue-button'>
         {/*<Tooltip style={{background: error}} placement={'bottom'} isOpen={this.state.tooltipOpen} target='continue-button'>*/}
         {/*<Tooltip style={{background: error}} placement={'bottom'} isOpen={this.state.tooltipOpen} target='continue-button' toggle={this.toggle}>*/}
           {this.state.tooltipMessage}
         </Tooltip>
-      </div>
+      </React.Fragment>
     );
   }
 }

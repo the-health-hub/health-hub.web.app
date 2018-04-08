@@ -12,20 +12,25 @@ export default class GS2 extends Component {  // Who
   i = 2;
   constraintMessage = 'Please select one or more options.';
   state = {
+    __typename: 'SocialCircleState',
     options: {
+      __typename: 'SocialCircleOptions',
       myself: {
+        __typename: 'SocialCircleOption',
         text: 'Myself',
         id: 'myself',
         icon: 'fa fa-user',
         selected: false
       },
       lovedOne: {
+        __typename: 'SocialCircleOption',
         text: 'A loved one',
         id: 'lovedOne',
         icon: 'fa fa-user-o',
         selected: false
       },
       family: {
+        __typename: 'SocialCircleOption',
         text: 'My family',
         id: 'family',
         icon: 'fa fa-users',

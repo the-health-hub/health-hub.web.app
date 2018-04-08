@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import { graphql } from 'react-apollo';
+// import { graphql } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import update from "immutability-helper/index";
 import GettingStartedTemplate from './Base';
@@ -7,7 +8,22 @@ import OptionGrid from '../../../static/components/optionGrid';
 import CardGrid from '../../../static/components/cardGrid';
 
 
-class SelectWidgetPageBase extends Component {
+// TODO: Move to template.
+// const swpMutate = gql`
+//   mutation swpMutate($componentState: String!) {
+//     swpMutate(componentState: $componentState) @client {
+//       createdAt
+//     }
+//   }
+// `;
+
+const updateHappy = gql`
+  mutation ($happyState: Object) {
+    updateHappy(happyState: $happyState) @client
+  }
+`;
+
+export default class SelectWidgetPageBase extends Component {
   state = this.props.state;
   
   // noinspection JSUnusedGlobalSymbols
@@ -18,13 +34,18 @@ class SelectWidgetPageBase extends Component {
     }));
   };
   
-  registerInput = (key, val) => {
+  registerInput = (key) => {
+  // registerInput = (key, val) => {
     if (Object.keys(this.state.options).includes(key))
       this.selectToggle(key);
   };
   
   // Since state is a parameter, this can double as a composable function that can exist in the namespace outside the function.
   continueEvaluate = (state) => {
+  // continueEvaluate = (state, mutation) => {
+    // mutation({ variables: { componentState: 'hello world!' } });
+    // console.log('testing-cont-eval');
+    
     let selectedOptions = 0;
     for (let option in state.options) {
       // noinspection JSUnfilteredForInLoop
@@ -38,22 +59,22 @@ class SelectWidgetPageBase extends Component {
     for (let condition in continueConditions) {
       continueOk *= continueConditions[condition]
     }
-    this.storeState(state);
+    // this.storeState(state);
     return continueOk;
   };
-  storeState(state) {
-  // storeState() {
-    this.props.mutate({
-      variables: { componentState: 'hello world!'}
-      // variables: { componentState: state}
-    })
-      .then(({ data }) => {
-        console.log('Got data: ', data);
-        console.log('Component state at time: ', state);
-      }).catch((error) => {
-        console.log('There was an error sending the query for Select Page Widget.', error);
-      });
-  }
+  // storeState(state) {
+  // // storeState() {
+  //   this.props.mutate({
+  //     variables: { componentState: state}
+  //     // variables: { componentState: 'hello world!'}
+  //   })
+  //     .then(({ data }) => {
+  //       // console.log('Got data: ', data);
+  //       // console.log('Component state at time: ', state);
+  //     }).catch((error) => {
+  //       console.log('There was an error sending the query for Select Page Widget.', error);
+  //     });
+  // }
 
   
   render() {
@@ -61,27 +82,51 @@ class SelectWidgetPageBase extends Component {
     Object.entries(this.state.options).forEach(([key, val]) => {
       options.push(val);
     });
-    
+
+    //<Mutation mutation={swpMutate}>
+    //  {(swpMutate, { data }) => (
+    // The { data } here is the returned data from the mutation function.
+    // noinspection RequiredAttributes
     return (
-      <GettingStartedTemplate i={this.props.i}
-                              // continueOk={this.storeState.bind(this)}
-                              continueOk={this.continueEvaluate(this.state)}
-                              constraintMessage={this.props.constraintMessage}>
-                              {/*constraintMessage={this.props.constraintMessage} {...this.props}>*/}
-        {this.props.children}
-        {this.props.display === 'cards' ? <CardGrid options={options} registerInput={this.registerInput}/> : ''}
-        {this.props.display === 'boxes' ? <OptionGrid options={options} registerInput={this.registerInput}/> : ''}
-        {/*<OptionGrid options={options} registerInput={this.registerInput}/>*/}
-      </GettingStartedTemplate>
+      <Mutation mutation={updateHappy}>
+        {(updateHappy) => (
+
+          <GettingStartedTemplate i={this.props.i}
+                                  // continueOk={this.storeState.bind(this)}
+                                  // continueOk={this.continueEvaluate(this.state)}
+                                  // continueOk={console.log('testing1')}
+                                  // continueOk={
+                                  //   e => {
+                                  //     this.continueEvaluate(this.state);
+                                  //     console.log('testing2');
+                                  //     e.preventDefault();
+                                  //     swpMutate({ variables: { componentState: 'hello world!' } });
+                                  //     // this.continueEvaluate(this.state)
+                                  //   }
+                                  // }
+                                  continueOk={this.continueEvaluate(this.state)}
+                                  constraintMessage={this.props.constraintMessage}>
+                                  {/*constraintMessage={this.props.constraintMessage} {...this.props}>*/}
+            {this.props.children}
+            {this.props.display === 'cards' ? <CardGrid options={options} registerInput={this.registerInput}/> : ''}
+            {this.props.display === 'boxes' ? <OptionGrid options={options} registerInput={this.registerInput}/> : ''}
+            {/*<OptionGrid options={options} registerInput={this.registerInput}/>*/}
+            <button onClick={e => {
+                console.log('updateHappyTest01');
+                e.preventDefault();
+                updateHappy({ variables: { happyState: {
+                  __typename: 'this.state',
+                  state: this.state
+                } } });
+              }
+            }>
+              hello
+            </button>
+          </GettingStartedTemplate>
+        )}
+      </Mutation>
     );
   }
 }
 
-// TODO: Move to template.
-export default graphql(gql`
-  mutation swpMutate($componentState: String!) {
-    swpMutate(componentState: $componentState) {
-      createdAt
-    }
-  }
-`)(SelectWidgetPageBase);
+// export default graphql(SwpMutation)(SelectWidgetPageBase);

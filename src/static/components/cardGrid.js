@@ -33,7 +33,7 @@ export default class CardGrid extends Component {
     
     return (
       <GridContainer>
-        {this.props.options.map((option, i) =>
+        {this.props.options.filter(option => typeof option === 'object').map((option, i) =>
             <GsCard
                 key={i}
                 id={option.id}
