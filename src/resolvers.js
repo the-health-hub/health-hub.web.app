@@ -11,17 +11,12 @@ export default {
       cache.writeData({ data: { sidebar_visibility } });
       return { sidebar_visibility, __typename: 'SidebarVisibility' };
     },
-    swpMutate: (_, { componentState }, { cache }) => {
-      cache.writeData({ data: { componentState } });
-      return { componentState, __typename: 'componentState' };
-    },
-    updateHappy: (_, { happyState }, { cache }) => {
-      cache.writeData({data: {
-        happy: {
-          __typename:'happy',
-          happyState: happyState
-        }
-      }});
+    updateAppState: (_, { key, val }, { cache }) => {
+      let appState = {
+          __typename: 'AppState',
+        };
+      appState[key] = val;
+      cache.writeData({data: {appState}});
       return null;
     }
   }

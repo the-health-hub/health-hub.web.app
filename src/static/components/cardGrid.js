@@ -42,6 +42,7 @@ export default class CardGrid extends Component {
                 img={option.img}
                 imgAlt={option.imgAlt}
                 registerInput={this.props.registerInput}
+                // cacheState={this.props.cacheState}
             >
               <div
                 style={{fontSize: '1.3em', textAlign: 'left'}}
@@ -85,7 +86,10 @@ export class GsCard extends Component {
             label={!this.props.selected ? `Click to Add` : <i className='fa fa-check' style={{fontSize: '2em'}}/>}
             secondary={!this.props.selected}
             style={this.props.selected ? {color: brightGreen} : {}}
-            onClick={() => this.props.registerInput(this.props.id)}
+            onClick={() => {
+              this.props.registerInput({key: this.props.id});
+              // this.props.cacheState();
+            }}
           />
         </CardActions>
       </Card>

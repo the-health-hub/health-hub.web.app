@@ -9,17 +9,9 @@ import CardGrid from '../../../static/components/cardGrid';
 
 
 // TODO: Move to template.
-// const swpMutate = gql`
-//   mutation swpMutate($componentState: String!) {
-//     swpMutate(componentState: $componentState) @client {
-//       createdAt
-//     }
-//   }
-// `;
-
-const updateHappy = gql`
-  mutation ($happyState: Object) {
-    updateHappy(happyState: $happyState) @client
+const updateAppState = gql`
+  mutation ($key: String!, $val: Object) {
+    updateAppState(key: $key, val: $val) @client
   }
 `;
 
@@ -36,14 +28,14 @@ export default class SelectWidgetPageBase extends Component {
   
   registerInput = (key) => {
   // registerInput = (key, val) => {
+  //   console.log('register input test');
     if (Object.keys(this.state.options).includes(key))
       this.selectToggle(key);
   };
   
   // Since state is a parameter, this can double as a composable function that can exist in the namespace outside the function.
-  continueEvaluate = (state) => {
-  // continueEvaluate = (state, mutation) => {
-    // mutation({ variables: { componentState: 'hello world!' } });
+  // continueEvaluate = (state) => {
+  continueEvaluate = (state ) => {
     // console.log('testing-cont-eval');
     
     let selectedOptions = 0;
@@ -76,48 +68,67 @@ export default class SelectWidgetPageBase extends Component {
   //     });
   // }
 
+  componentWillUpdate() {
+    console.log('component will update');
+    console.log(this.state);
+  }
+  
+  componentDidUpdate() {
+    console.log('component did update');
+    console.log(this.state);
+  }
   
   render() {
     const options = [];
     Object.entries(this.state.options).forEach(([key, val]) => {
       options.push(val);
     });
-
-    //<Mutation mutation={swpMutate}>
-    //  {(swpMutate, { data }) => (
+    
+    // (cacheState = () => {
+    //   console.log('hello');
+    //   updateAppState({
+    //     variables: {
+    //       key: this.state.__typename,
+    //       val: {
+    //         __typename: 'Object',
+    //         state: this.state
+    //       }
+    //     }
+    //   });
+    // }) => (
+    
+    //  {(updateAppState, { data }) => (
     // The { data } here is the returned data from the mutation function.
     // noinspection RequiredAttributes
     return (
-      <Mutation mutation={updateHappy}>
-        {(updateHappy) => (
-
+      <Mutation mutation={updateAppState}>
+        {(updateAppState) => (
           <GettingStartedTemplate i={this.props.i}
-                                  // continueOk={this.storeState.bind(this)}
-                                  // continueOk={this.continueEvaluate(this.state)}
-                                  // continueOk={console.log('testing1')}
-                                  // continueOk={
-                                  //   e => {
-                                  //     this.continueEvaluate(this.state);
-                                  //     console.log('testing2');
-                                  //     e.preventDefault();
-                                  //     swpMutate({ variables: { componentState: 'hello world!' } });
-                                  //     // this.continueEvaluate(this.state)
-                                  //   }
-                                  // }
                                   continueOk={this.continueEvaluate(this.state)}
                                   constraintMessage={this.props.constraintMessage}>
                                   {/*constraintMessage={this.props.constraintMessage} {...this.props}>*/}
             {this.props.children}
-            {this.props.display === 'cards' ? <CardGrid options={options} registerInput={this.registerInput}/> : ''}
-            {this.props.display === 'boxes' ? <OptionGrid options={options} registerInput={this.registerInput}/> : ''}
+            {this.props.display === 'cards' ? <CardGrid options={options} registerInput={this.registerInput} cacheState={() => {updateAppState({ variables: {
+                  key: this.state.__typename,
+                  val: {
+                  __typename: 'Object',
+                  state: this.state
+                }}})}}/> : ''}
+            {this.props.display === 'boxes' ? <OptionGrid options={options} registerInput={this.registerInput} cacheState={() => {updateAppState({ variables: {
+                  key: this.state.__typename,
+                  val: {
+                  __typename: 'Object',
+                  state: this.state
+                }}})}}/> : ''}
             {/*<OptionGrid options={options} registerInput={this.registerInput}/>*/}
             <button onClick={e => {
-                console.log('updateHappyTest01');
                 e.preventDefault();
-                updateHappy({ variables: { happyState: {
-                  __typename: 'this.state',
+                updateAppState({ variables: {
+                  key: this.state.__typename,
+                  val: {
+                  __typename: 'Object',
                   state: this.state
-                } } });
+                }}});
               }
             }>
               hello
@@ -129,4 +140,4 @@ export default class SelectWidgetPageBase extends Component {
   }
 }
 
-// export default graphql(SwpMutation)(SelectWidgetPageBase);
+// export default graphql(updateAppState)(SelectWidgetPageBase);

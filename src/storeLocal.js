@@ -18,12 +18,7 @@ const src = {
 export const localStore = {
   sidebar_visibility: src.ui.components.sidebar.visibility,
   viewMode: src.ui.viewMode,
-  swpMutate: {
-    __typename: 'swpMutate',
-    componentState: null
+  appState: {
+    __typename: 'AppState',
   },
-  happy: {
-    __typename:'happy',
-    happyState: false
-  }
 };
