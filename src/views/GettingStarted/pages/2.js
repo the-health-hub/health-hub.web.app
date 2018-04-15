@@ -11,7 +11,7 @@ export default class GS2 extends Component {  // Who
   header = 'Your Circle';
   i = 2;
   constraintMessage = 'Please select one or more options.';
-  state = {
+  data = {
     __typename: 'SocialCircleState',
     options: {
       __typename: 'SocialCircleOptions',
@@ -38,10 +38,23 @@ export default class GS2 extends Component {  // Who
       },
     }
   };
+  
+  state = this.data;
+  
+  // - This can filter out stuff that doesn't really need to be in state. But
+  //   this would need to be done recursively.
+  // state = Object.keys(this.data)
+  // .filter(key => ['__typename', 'selected'].includes(key))
+  // .reduce((obj, key) => {
+  //   obj[key] = this.raw[key];
+  //   return obj;
+  // }, {});
+  
   content = function () {
     return <GsP>Who would you like to set up?<BrOver400px/>
       If you'd rather do a speedier setup, these options can easily be revisted later.</GsP>
   }();
+  
   render() {
     return (
       <SelectWidgetPage

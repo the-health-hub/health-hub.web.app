@@ -18,10 +18,7 @@ export default class OptionGrid extends Component {
             <Box
               key={i}
               selected={option.selected}
-              onClick={() => {
-                this.props.registerInput(option.id);
-                this.props.cacheState();
-              }}
+              onClick={() => {this.props.registerInput(option.id);}}
             >
               <Icon className={option.icon}
                     selected={option.selected}
