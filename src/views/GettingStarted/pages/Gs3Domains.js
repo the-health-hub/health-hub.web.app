@@ -12,43 +12,107 @@ export default class GS3 extends Component {
   header = 'Health Domains';  // Aliases: Categories.
   i = 3;
   constraintMessage = 'Please select one or more options.';
+  chronicHealthFocuses = {
+    'eye-health': {
+      title: 'Eye Health',
+      id: 'eye-health',
+      options: {
+        glaucoma: {
+          __typename: 'Glaucoma',
+          text: 'Glaucoma',
+          id: 'glaucoma',
+          icon: 'fa fa-eye',
+          category: 'Eye Health',
+          selected: false
+        },
+        iritis: {
+          __typename: 'Iritis',
+          text: 'Iritis',
+          id: 'iritis',
+          icon: 'fa fa-eye',
+          category: 'Eye Health',
+          selected: false
+        },
+      }
+    },
+    'mental-health': {
+      title: 'Mental Health',
+      id: 'mental-health',
+      options: {
+        depression: {
+          __typename: 'Depression',
+          text: 'Depression',
+          id: 'depression',
+          icon: 'fa fa-question-circle',
+          category: 'Mental Health',
+          selected: false
+        },
+        'bipolar-disorder': {
+          __typename: 'Bipolar Disorder',
+          text: 'Bipolar Disorder',
+          id: 'bipolar-disorder',
+          icon: 'fa fa-question-circle',
+          category: 'Mental Health',
+          selected: false
+        },
+      }
+    }
+  };
+  everydayHealthFocuses = {
+    'diet': {
+      title: 'Diet',
+      id: 'diet',
+      options: {
+        'calorie-count': {
+          __typename: 'Calorie Count',
+          text: 'Calorie Count',
+          id: 'calorie-count',
+          icon: 'fa fa-question-circle',
+          category: 'Diet',
+          selected: false
+        },
+      }
+    },
+  };
   state = {
     __typename: 'HealthDomainsState',
     options: {
       __typename: 'HealthDomainsOptions',
-      'chronic': {
+      'chronic-health': {
         __typename: 'HealthDomainsOption',
         text: 'Chronic Health',
-        id: 'chronic',
+        id: 'chronic-health',
         img: require('../../../static/media/img/cards/chronic/blood-pressure-guage_5x1.jpg'),
         imgAlt: 'Close-up of a blood pressure monitor.',
         selected: false,
         content: 'It may be that you are strugging with an illness that may never go away, but it helps greatly to track your symptoms.',
+        options: this.chronicHealthFocuses,
         contentNested: `
           Physical Health grouping
           Mental Health grouping
           Symptomology`
       },
-      'long-short-term': {
-        __typename: 'HealthDomainsOption',
-        text: 'Long & Short-term Health',
-        id: 'long-short-term',
-        img: require('../../../static/media/img/cards/long-short-term/injury-cast-leg_5x1.png'),
-        imgAlt: 'Leg being wrapped in cast.',
-        selected: false,
-        content: 'Perhaps you have a long-term condition, such as an injury, with goals that you\'d like to target for recovery. Or maybe you or a loved one has short-term condition, such as a flu.',
-        contentNested: `
-          Long term - long term (injury ex) / recurrent / chronic or unknown health cond mental / emotianal.
-        `
-      },
-      'everyday': {
+      // 'long-short-term': {
+      //   __typename: 'HealthDomainsOption',
+      //   text: 'Long & Short-term Health',
+      //   id: 'long-short-term',
+      //   img: require('../../../static/media/img/cards/long-short-term/injury-cast-leg_5x1.png'),
+      //   imgAlt: 'Leg being wrapped in cast.',
+      //   selected: false,
+      //   content: 'Perhaps you have a long-term condition, such as an injury, with goals that you\'d like to target for recovery. Or maybe you or a loved one has short-term condition, such as a flu.',
+      //   contentNested: `
+      //     Long term - long term (injury ex) / recurrent / chronic or unknown health cond mental / emotianal.
+      //   `
+      // },
+      'everyday-health': {
         __typename: 'HealthDomainsOption',
         text: 'Everyday Health',
-        id: 'everyday',
+        id: 'everyday-health',
         img: require('../../../static/media/img/cards/daily/fitness-shoe_5x1.jpg'),
         imgAlt: 'Getting ready to jog.',
         selected: false,
         content: 'Most of us could even use some improvement in our everyday health, such as sleep, diet, mood, or physical fitness.',
+        options: this.everydayHealthFocuses,
         contentNested: `
           Physical Fitness & Exercise
           Vitals: Blood pressure

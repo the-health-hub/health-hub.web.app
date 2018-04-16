@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import update from "immutability-helper/index";
-import GettingStartedTemplate from './Base';
-import OptionGrid from '../../../static/components/optionGrid';
+import GettingStartedTemplate from './GsBase';
+import BoxGrid from '../../../static/components/boxGrid';
 import CardGrid from '../../../static/components/cardGrid';
 
 
@@ -25,16 +25,37 @@ class SelectWidgetPageBase extends Component {
     }));
   };
   
-  registerInput = (key) => {
-  // registerInput = (key, val) => {
-  //   console.log('register input test');
-    if (Object.keys(this.state.options).includes(key))
-      this.selectToggle(key);
+  selectToggleNested = (path) => {  // This would be better off as a recursive function.
+    let nestedVal = {
+        options: {
+          [path[0]]: {
+            [path[1]]: {
+              [path[2]]: {
+                [path[3]]: {
+                  [path[4]]: {
+                    selected: {$set: !this.state.options[path[0]][path[1]][path[2]][path[3]][path[4]].selected}
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+    this.setState(update(this.state, nestedVal));
+  };
+  
+  registerInput = (keyPath) => {
+    if (Object.keys(this.state.options).includes(keyPath)) {
+      this.selectToggle(keyPath);
+    } else if (keyPath.includes('.')) {
+      const path = keyPath.split('.');
+      this.selectToggleNested(path);
+      
+    }
   };
   
   continueEvaluate = (state) => {  // Static Function
     // console.log('testing-cont-eval');
-    
     let selectedOptions = 0;
     for (let option in state.options) {
       // noinspection JSUnfilteredForInLoop
@@ -58,7 +79,7 @@ class SelectWidgetPageBase extends Component {
   }
   
   render() {
-    const options = [];
+    let options = [];
     Object.entries(this.state.options).forEach(([key, val]) => {
       options.push(val);
     });
@@ -71,7 +92,7 @@ class SelectWidgetPageBase extends Component {
                               {/*constraintMessage={this.props.constraintMessage} {...this.props}>*/}
         {this.props.children}
         {this.props.display === 'cards' ? <CardGrid options={options} registerInput={this.registerInput}/> : ''}
-        {this.props.display === 'boxes' ? <OptionGrid options={options} registerInput={this.registerInput}/> : ''}
+        {this.props.display === 'boxes' ? <BoxGrid options={options} registerInput={this.registerInput}/> : ''}
       </GettingStartedTemplate>
     );
   }

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // noinspection NpmUsedModulesInstalled
 import Card from 'material-ui/Card/Card';
 // noinspection NpmUsedModulesInstalled
-import CardActions from 'material-ui/Card/CardActions';
+// import CardActions from 'material-ui/Card/CardActions';
 // noinspection NpmUsedModulesInstalled
 import CardMedia from 'material-ui/Card/CardMedia';
 // noinspection NpmUsedModulesInstalled
@@ -12,9 +12,10 @@ import CardTitle from 'material-ui/Card/CardTitle';
 // noinspection NpmUsedModulesInstalled
 import CardText from 'material-ui/Card/CardText';
 // noinspection NpmUsedModulesInstalled
-import FlatButton from 'material-ui/FlatButton';
+// import FlatButton from 'material-ui/FlatButton';
 import { GridContainer } from './positioning';
-import {brightGreen} from "../../styles";
+// import {brightGreen} from "../../styles";
+import BoxGrid from './boxGrid';
 
 
 // # Resources
@@ -22,7 +23,7 @@ import {brightGreen} from "../../styles";
 // https://css-tricks.com/snippets/css/complete-guide-grid/
 // https://www.sitepoint.com/seven-ways-you-can-place-elements-using-css-grid-layout/
 // Responsive: https://medium.com/samsung-internet-dev/common-responsive-layouts-with-css-grid-and-some-without-245a862f48df
-export default class CardGrid extends Component {
+export default class  CardGrid extends Component {
   render() {
     /* Options
      Daily Life - phys fit. Sleep. Exer. Diet. Vitals
@@ -32,7 +33,7 @@ export default class CardGrid extends Component {
     */
     
     return (
-      <GridContainer>
+      <GridContainer style={this.props.style}>
         {this.props.options.filter(option => typeof option === 'object').map((option, i) =>
             <GsCard
                 key={i}
@@ -42,6 +43,7 @@ export default class CardGrid extends Component {
                 img={option.img}
                 imgAlt={option.imgAlt}
                 registerInput={this.props.registerInput}
+                options={option.options}
             >
               <div
                 style={{fontSize: '1.3em', textAlign: 'left'}}
@@ -58,6 +60,20 @@ export default class CardGrid extends Component {
 
 export class GsCard extends Component {
   render() {
+    let options = [];
+    Object.entries(this.props.options).forEach(([key, val]) => {
+      if (typeof val === 'object') {
+        Object.entries(val).forEach(([key2, val2]) => {
+          if (typeof val2 === 'object') {
+            Object.entries(val2).forEach(([key3, val3]) => {
+              val3.path = [this.props.id, 'options', key, key2, key3].join('.');
+              options.push(val3);
+            });
+          }
+        });
+      }
+    });
+    
     // noinspection JSUnresolvedVariable
     return (
       <Card style={{marginTop: '40px', marginBottom: '40px'}}>
@@ -80,16 +96,12 @@ export class GsCard extends Component {
         <CardText>
           {this.props.children}
         </CardText>
-        <CardActions>
-          <FlatButton
-            label={!this.props.selected ? `Click to Add` : <i className='fa fa-check' style={{fontSize: '2em'}}/>}
-            secondary={!this.props.selected}
-            style={this.props.selected ? {color: brightGreen} : {}}
-            onClick={() => {
-              this.props.registerInput(this.props.id);
-            }}
-          />
-        </CardActions>
+        
+        <BoxGrid options={options} registerInput={this.props.registerInput}
+                 style={{
+                   justifyContent: 'flex-start',
+                   marginTop: '0'
+                 }}/>
       </Card>
     )
   }

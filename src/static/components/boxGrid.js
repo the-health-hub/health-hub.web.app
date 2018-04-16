@@ -9,16 +9,16 @@ import {darkGreen, lightGreen, brightGreen} from "../../styles";
 // https://css-tricks.com/snippets/css/complete-guide-grid/
 // https://www.sitepoint.com/seven-ways-you-can-place-elements-using-css-grid-layout/
 // Responsive: https://medium.com/samsung-internet-dev/common-responsive-layouts-with-css-grid-and-some-without-245a862f48df
-export default class OptionGrid extends Component {
+export default class BoxGrid extends Component {
   render() {
     // noinspection JSUnresolvedVariable
     return (
-      <GridContainer>
+      <GridContainer style={this.props.style}>
         {this.props.options.filter(option => typeof option === 'object').map((option, i) =>
             <Box
               key={i}
               selected={option.selected}
-              onClick={() => {this.props.registerInput(option.id);}}
+              onClick={() => {this.props.registerInput(option.path ? option.path : option.id);}}
             >
               <Icon className={option.icon}
                     selected={option.selected}
@@ -28,6 +28,13 @@ export default class OptionGrid extends Component {
                 textMagnification={this.props.textMagnification ? this.props.textMagnification : null}
               >
                 {option.text}
+                {option.category
+                  ? <React.Fragment>
+                      <br/>
+                      <span>({option.category})</span>
+                  </React.Fragment>
+                  : ''
+                }
               </Txt>
             </Box>
         )}
@@ -36,6 +43,7 @@ export default class OptionGrid extends Component {
   }
 }
 
+// noinspection JSUnresolvedVariable
 const Icon = styled.i`
   margin-top: 15px;
   margin-bottom: 15px;
@@ -50,6 +58,7 @@ const Txt = styled.span`
   //color: ${primary};
 `;
 
+// noinspection JSUnresolvedVariable
 const Box = styled.div`
   // TODO: Media query at small screen size. 2 width grid.
   // TODO: Select animation like turbotax with checkmark.
@@ -66,11 +75,11 @@ const Box = styled.div`
   //box-shadow: 0 3px 6px 0 ${primary}, 0 4px 8px 0 ${primary};
   //  box-shadow: 1px 1px 3px 0 ${primary};
   //box-shadow: 1px 1px 3px 0 ${iconBlack};
-  border: ${props => props.selected ? '1px solid ' + darkGreen : '1px solid '+ primary};
+  border: ${props => props.selected ? '1px solid ' + darkGreen : '1px solid ' + primary};
   // border: 1px solid ${iconBlack};
   border-radius: 3px;
   /* opacity: 0.9; */
-  background: ${props => props.selected ? lightGreen: ''};
+  background: ${props => props.selected ? lightGreen : ''};
   &:hover {
     background-color: ${props => props.selected ? brightGreen : primary};
     color: ${props => props.selected ? lightGreen : 'white'};

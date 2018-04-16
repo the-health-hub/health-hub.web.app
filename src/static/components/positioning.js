@@ -66,6 +66,7 @@ export const GridContainer = styled.section`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-  margin-top: 30px;
+  margin-top: ${props => props.style && props.style.marginTop ? props.style.marginTop : '30px'};
+  //margin-top: 30px;
   margin-bottom: 10px;
 `;

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import GettingStartedTemplate from '../templates/Base';
+import GettingStartedTemplate from '../templates/GsBase';
 import GsH1 from '../components/h1';
 import GsP from '../components/p';
 

@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 // https://www.sitepoint.com/seven-ways-you-can-place-elements-using-css-grid-layout/
 // Responsive: https://medium.com/samsung-internet-dev/common-responsive-layouts-with-css-grid-and-some-without-245a862f48df
 
-export default class OptionGrid extends Component {
+export default class BoxGrid extends Component {
   
   render() {
     const boxStyle = {
