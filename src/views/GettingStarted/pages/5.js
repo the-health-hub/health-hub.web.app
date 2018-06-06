@@ -1,59 +1,69 @@
 import React, {Component} from "react";
-import SelectWidgetPage from '../templates/SelectWidgetPage';
-import {BrOver400px} from '../../../static/components/text';
-import GsH1 from '../components/h1';
-import GsP from '../components/p';
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+// import { objToApolloQuery, jsonToGraphQLQuery } from '@joeflack4/json-to-graphql-query';
+import { healthDomainsState} from "./Gs3Domains";
+import { jsonToGraphQLQuery } from '@joeflack4/json-to-graphql-query';
 
-// # Design
-// (1) No math, (2) likert scales, (3) categories, focuses, targetables.
-export default class GS3 extends Component {
-  header = 'Targetables';
-  i = 5;
-  constraintMessage = 'Please select one or more options.';
-  state = {
-    options: {
-      '1': {
-        text: 'Targetable #1',
-        id: '1',
-        icon: 'fa fa-question',
-        selected: false
-      },
-      '2': {
-        text: 'Targetable #2',
-        id: '2',
-        icon: 'fa fa-question',
-        selected: false
-      },
-      '3': {
-        text: 'Targetable #3',
-        id: '3',
-        icon: 'fa fa-question',
-        selected: false
-      },
-      '4': {
-        text: 'Targetable #4',
-        id: '4',
-        icon: 'fa fa-question',
-        selected: false
-      },
+let data = {
+  appState: {
+    __directives: {
+      client: true
     }
-  };
-  
-  content = function () {
-    return <GsP>Categories are things you want to track and
-      improve.<BrOver400px/>
-      At <em>Health Hub</em>, these are the keystone of your health
-      profile.</GsP>
-  }();
+  }
+};
+
+// TODO: Remove __typename from query in library.
+// TODO: Get working.
+// TODO: Add query to state.
+// TODO: Get working.
+data = healthDomainsState;
+const initial_state_query = jsonToGraphQLQuery(
+  {query: healthDomainsState}, {ignoreFields: '__typename'}
+  ).replace(/__typename /g, '');
+
+const query = jsonToGraphQLQuery({query: data}, {ignoreFields: '__typename'}).replace(/__typename /g, '');;
+const GET_STATE = gql`${query}`;
+// const GET_STATE = gql`{ appState @client }`;
+// const GET_STATE = gql`query { appState }`;
+
+class GS5Base extends Component {
   
   render() {
+    console.log(initial_state_query);
+    
     return (
-      <SelectWidgetPage i={this.i} state={this.state}
-                        constraintMessage={this.constraintMessage}>
-        {/*<SelectWidgetPage i={this.i} state={this.state} content={this.content} constraintMessage={this.constraintMessage}>*/}
-        <GsH1>{this.header}</GsH1>
-        {this.content}
-      </SelectWidgetPage>
+      <div>
+        <h1>Testing Area</h1>
+        <p>
+          This.props.data: {JSON.stringify(this.props.data)}
+          <br/>
+          Query: {query}
+        </p>
+      </div>
     )
   }
 }
+
+// noinspection RequiredAttributes
+const GS5 = ({ someEvent }) => (
+  <Query query={GET_STATE} variables={{x: 'appState'}}>
+    {({ loading, error, data }) => {
+      if (loading) return "Loading...";
+      if (error) return `Error! ${error.message}`;
+      return (
+        <GS5Base name="GS5Base" data={data}/>
+        // <GS5Base name="GS5Base" data={data} onChange={console.log(data)}/>
+        
+        // <GS5Base name="GS5Base" data={data}/>
+        // <GS5Base name="GS5Base" data={data} onChange={console.log('change was detected')}/>
+        // Removing the onChange handler didn't seem to solve the problem.
+        // <GS5Base name="GS5Base" data={data} onChange={someEvent}/>
+        // Errors rather than printing.
+        // <GS5Base name="GS5Base" data={data} onChange={data}/>
+      );
+    }}
+  </Query>
+);
+
+export default GS5;

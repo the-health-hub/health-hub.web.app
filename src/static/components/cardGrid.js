@@ -66,8 +66,11 @@ export class GsCard extends Component {
         Object.entries(val).forEach(([key2, val2]) => {
           if (typeof val2 === 'object') {
             Object.entries(val2).forEach(([key3, val3]) => {
-              val3.path = [this.props.id, 'options', key, key2, key3].join('.');
-              options.push(val3);
+              if (key3 !== '__typename') {
+                let newVal3 = Object.assign({}, val3);  // Makes extensible
+                newVal3.path = [this.props.id, 'options', key, key2, key3].join('.');
+                options.push(newVal3);
+              }
             });
           }
         });
@@ -99,7 +102,7 @@ export class GsCard extends Component {
         
         <BoxGrid options={options} registerInput={this.props.registerInput}
                  style={{
-                   justifyContent: 'flex-start',
+                   // justifyContent: 'flex-start',
                    marginTop: '0'
                  }}/>
       </Card>

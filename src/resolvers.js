@@ -12,11 +12,13 @@ export default {
       return { sidebar_visibility, __typename: 'SidebarVisibility' };
     },
     updateAppState: (_, { key, val }, { cache }) => {
-      let appState = {
-          __typename: 'AppState',
-        };
-      appState[key] = val;
-      cache.writeData({data: {appState}});
+      // let appState = {__typename: 'AppState',};
+      // appState[key] = val;
+      // cache.writeData({data: {appState}});
+      let toWrite = {data: {}};
+      toWrite[key] = val;
+      
+      cache.writeData(toWrite);
       return null;
     }
   }
